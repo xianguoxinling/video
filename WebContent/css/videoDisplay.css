@@ -1,0 +1,65 @@
+.backImg {
+  height: 210px;
+  cursor: pointer;
+  background: center no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  border-radius: 10px;
+}
+
+.product-grid {
+  border-radius: 10px;
+  border: none;
+}
+
+.product-grid:hover {
+  box-shadow: 0 1px 11px #DBDBDB;
+  z-index: 1;
+}
+
+.product-grid:hover .video-text a {
+  color: #fff;
+  z-index: 999;
+}
+
+.video-text {
+  padding: 0.5em 1em;
+  text-align: center;
+}
+
+.video-text a {
+  padding: 0.5em 1em;
+  text-align: center;
+  color: #2A2323;
+  text-transform: uppercase;
+  font-size: 0.875em;
+}
+
+.vcenter {
+  display: inline-block;
+  position: absolute;
+  color: white;
+  background: #000;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  filter: alpha(opacity=80);
+  -moz-opacity: 0.8;
+  opacity: 0.8;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.video-name {
+  font-size: 18px;
+  margin-top: 6px;
+}
+
+.video-dsc {
+  margin: 2px 20px 0 20px;
+  color: #b5b5b5;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>puckart 一切为艺术而生</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="shortcut icon" href="http://www.puckart.com/images/favicon.ico" type="image/x-icon">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <link href="http://www.puckart.com/css/mainstyle.css" rel='stylesheet' type='text/css' />
+  <link href="http://www.puckart.com/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/videoDisplay.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="header">
+    <div class="top-header">
+      <div class="wrap">
+        <div class="top-header-right">
+          <ul>
+            <li id="login"> </li>
+          </ul>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div id="header"></div>
+    <div class="clear"></div>
+  </div>
+
+  <div class="content" style="min-height:400px;">
+    <div class="wrap">
+      <div class="content-center">
+        <div class="product-grids" id="videoPanle"></div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  </div>
+
+  <div id="footer"></div>
+  <div class="clear"></div>
+
+  <script type="text/javascript" src="http://www.puckart.com/js/jquery-2.1.0.min.js"></script>
+  <script type="text/javascript" src="http://www.puckart.com/js/megamenu.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(".megamenu").megamenu();
+    });
+  </script>
+  <script type="text/javascript" src="http://www.puckart.com/js/move-top.js"></script>
+  <script type="text/javascript" src="http://www.puckart.com/js/easing.js"></script>
+  <script type="text/javascript" src="http://www.puckart.com/js/cookies.js"></script>
+  <script type="text/javascript" src="js/baseload.js"></script>
+  <script type="text/javascript">
+    $.post("http://magic.puckart.com/video/query_all.action?keyID=nhatrgog4yqq4b",
+      function(data) {
+        console.log(data);
+        var str = '';
+        $("#videoPanle").html(str);
+        for (var i = 0; i < data.length; i++) {
+          if ((i + 1) % 3 == 0) {
+            str = '<div class="product-grid last-grid" ';
+          } else {
+            str = '<div class="product-grid" ';
+          }
+          str += 'onClick="location.href=\'http://magic.puckart.com/video2/player.html?uuid=' + data[i].uuid + '\'">';
+          str += '<div class="backImg" style="background-image:url(' + data[i].pic + ')"></div>';
+          str += '<div class="">'+'<div class="video-text">';
+          str += '<a href="http://magic.puckart.com/video2/player.html?uuid=' + data[i].uuid + '">' + data[i].name + '</a>';
+          str += '</div>'+'<div class="clear"></div>'+'</div>';
+          str += '<div class="vcenter" style="display: none">';
+          str += '<div style="margin-top:60px"><i class="fa fa-play fa-5x"></i></div>';
+          str += '<div class="video-name">' + data[i].name + '</div>';
+          str += '<div class="video-dsc">' + data[i].describe + '</div>';
+          str += '</div></div>';
+          $("#videoPanle").append(str);
+        }
+        $(".vcenter").hide();
+        $(".product-grids .product-grid").hover(
+          function() {
+            $(this).find(".vcenter").show();
+          },
+          function() {
+            $(this).find(".vcenter").hide();
+          }
+        );
+      }, "json");
+  </script>
+</body>
+
+</html>

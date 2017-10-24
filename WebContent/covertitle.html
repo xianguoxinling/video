@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>更改视频封面</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" href="http://www.puckart.com/images/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="http://www.puckart.com/css/store.css" type="text/css" />
+	<link rel="stylesheet" href="http://www.puckart.com/css/jquery.validation.css" type="text/css" />
+	<link rel="stylesheet" href="http://www.puckart.com/css/bootstrap.css" media="screen" type="text/css" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<style type="text/css">
+		#preview,
+		.img,
+		img {
+			width: auto;
+			height: 128px;
+			margin-top: 12px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="main">
+
+		<div id="header"></div>
+		<div id="content">
+			<div id="header2"></div>
+			<div class="wrapper">
+				<div class="aside">
+					<ul class="nav001">
+						<li><a href="#">上传视频</a></li>
+						<li><a class="current" href="#">更改封面</a></li>
+					</ul>
+					<div class="box">
+						<div class="inner">
+							<ul class="list1">
+								<li><a href="#">微博</a></li>
+								<li><a href="#">微信</a></li>
+								<li><a href="#">备用链接</a></li>
+								<li><a href="#">备用链接</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="mainContent">
+
+					<div class="wrapper">
+						<form id="uploadcover" action="#" method="post" class="validation-form-container" enctype="multipart/form-data">
+
+							<div class="field">
+								<div id="alertPanel" style="margin-bottom: 10px">
+									<div class="alert alert-success" style="display:none"></div>
+								</div>
+								<!-- <label>上传封面</label> -->
+								<div class="ui left labeled input">
+									<input type="file" id="file" name="video" value="">
+									<div id="pre"></div>
+									<br>
+									<div id="progressPanel" class="progress progress-striped active" style="height:21px">
+										<div id="progressBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
+											<span id="percentage" style="font-size: 16px;line-height: 20px;"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="" style="text-align:center">
+								<input value="上传" type="submit" class="btn btn-default" id="submit" name="submit" onclick="uploadcover()">
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="foot"></div>
+	</div>
+
+	<script type="text/javascript" src="http://www.puckart.com/js/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="http://www.puckart.com/js/bootstrap.js"></script>
+	<script type="text/javascript" src="http://kefu.puckart.com/mibew/js/compiled/chat_popup.js"></script>
+	<script type="text/javascript" src="http://www.puckart.com/js/kf.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('#header').load('load/header.html');
+			$('#header2').load('load/header2.html');
+			$('#foot').load('load/foot.html');
+			$('#uploadcover').easyform();
+			document.getElementById("uploadcover").reset();
+		});
+	</script>
+	<script type="text/javascript">
+		var resetalert = '<div class="alert alert-success">' + '<button type="button" class="close" data-dismiss="alert" style="color:green;"><i class="fa fa-times"></i></button>';
+
+		$("#file").on('change', function(e) {
+			var name = e.currentTarget.files[0].name;
+			$('#submit').removeClass('disabled');
+			$('#uploadcover').find('#alertPanel').hide();
+			if (!/\.(bmp|gif|jpg|jpeg|png|GIF|JPG|PNG|JPEG|BMP)$/.test(name)) {
+				$('#uploadcover').find('#alertPanel').html(resetalert + '请选择图片文件，支持后缀名为.bmp .gif .jpg .jpeg .png的图片' + '</div>').show();
+				$('#submit').addClass('disabled');
+				return false;
+			}
+			preview(this)
+		});
+
+		function uploadcover() {
+			if (!($("#file").val())) {
+				alert("请选择一张图片");
+				return;
+			}
+			var fileObj = document.getElementById("file").files[0];
+			var FileController = "http://122.4.241.3/freework/person/modify_headpic.action";
+			var form = new FormData();
+			form.append("file", fileObj);
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("post", FileController, true);
+			xhr.onload = function(e) {
+				var data = JSON.parse(xhr.responseText);
+				console.log(data);
+				$('#resetfile').find('#alertPanel').hide()
+				document.getElementById("resetfile").reset();
+				$('#progressBar').css('width', '0');
+				$('#percentage').html('');
+				alert("上传成功")
+			};
+			xhr.ontimeout = function(e) {
+				$('#uploadcover').find('#alertPanel').html(resetalert + '连接超时，请检查网络后重试!' + '</div>').show();
+			};
+			xhr.onerror = function(e) {
+				$('#uploadcover').find('#alertPanel').html(resetalert + '网络可能出问题了，请稍后重试!' + '</div>').show();
+			};
+			xhr.upload.addEventListener("progress", progressFunction, false);
+			xhr.send(form);
+		}
+
+		function progressFunction(evt) {
+			if (evt.lengthComputable) {
+				var progressBar = document.getElementById("progressBar");
+				var percentageDiv = document.getElementById("percentage");
+				var math = Math.round(evt.loaded / evt.total * 100);
+				progressBar.style.width = math + "%";
+				percentageDiv.innerHTML = math + "%";
+			}
+		}
+
+		function preview(file) {
+			var prevDiv = document.getElementById('pre');
+			if (file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					prevDiv.innerHTML = '<img src="' + evt.target.result + '" />';
+				}
+				reader.readAsDataURL(file.files[0]);
+			} else {
+				prevDiv.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+			}
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       
+    <bean name="/create.action" class="control.video.CreateVideoController"></bean>   
+    <bean name="/update.action" class="control.video.UpdateVideoController"></bean>   
+    <bean name="/update_pic.action" class="control.video.UpdateVideoPicController"></bean> 
+    <bean name="/query_my.action" class="control.video.QueryMyVideoController"></bean>
+    <bean name="/query_all.action" class="control.video.QueryAllVideoController"></bean>
+    <bean name="/query.action" class="control.video.QueryVideoController"></bean>
+    <bean name="/query_category.action" class="control.video.QueryVideoByCategoryController"></bean>
+    <bean name="/delete_my.action" class="control.video.DelVideoController"></bean>
+    
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="200000000000" />
+	</bean>	
+</beans>

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>puckart 一切为艺术而生</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="shortcut icon" href="http://www.puckart.com/images/favicon.ico" type="image/x-icon">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <link href="http://www.puckart.com/css/mainstyle.css" rel='stylesheet' type='text/css' />
+  <link href="http://www.puckart.com/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="css/common.css" rel="stylesheet" type="text/css" />
+
+  <script type="text/javascript" src="http://www.puckart.com/js/jquery-2.1.0.min.js"></script>
+  <script type="text/javascript" src="js/baseload.js"></script>
+</head>
+
+<body>
+  <div class="header">
+    <div class="top-header">
+      <div class="wrap">
+        <div class="top-header-right">
+          <ul>
+            <li id="login"> </li>
+          </ul>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div id="header"></div>
+    <div class="clear"></div>
+  </div>
+
+  <div class="content" style="min-height:400px;">
+
+    <div class="wrap">
+      <div id="plycontent">
+        <div class="close_light_bg" id="close_light_bg"></div>
+
+        <div class="video" id="puckPlayer">
+          <SCRIPT LANGUAGE=JavaScript>
+            var vID = "";
+            var vWidth = "100%";
+            var vHeight = 530;
+            var vFile = "puckPlayerSet.xml"; //播放器配置文件
+            var vPlayer = "player.swf?v=3.5";
+            var vPic = "images/start.jpg"; //视频缩略图
+            var vCssurl = "css/mini.css"; //移动端CSS
+            var vImg = ""
+            //PC端
+            // var vServer = ""; //RTMP服务器地址
+            var vMp4url = ""; //RTMP视频文件地址
+            //安卓端,iOS端,wp(以下地址可以是mp4/flv或m3u8地址)
+            var vIosurl = "http://magic.puckart.com/video/nhatrgog4yqq4b_565a8ec2-4991-4951-981b-a5a5fa427a3c/video.flv"; //视频文件地址
+            $.ajax({
+              url: 'http://magic.puckart.com/video/query.action',
+              data: {
+                keyID: 'nhatrgog4yqq4b',
+                uuid: GetQueryString("uuid"),
+              },
+              dataType: 'json',
+              async: false,
+              success: function(data) {
+                console.log(data);
+                vPic = data.pic;
+                vImg = data.pic;
+                // vServer = data.serverAdd;
+                // console.log("vServer:" + vServer);
+                // vMp4url = data.path.slice(-3) + ":/" + data.path;
+                vMp4url = data.path;
+                console.log("vMp4url:" + vMp4url);
+                vIosurl = data.path;
+                console.log("vIosurl:" + vIosurl);
+              }
+            });
+          </SCRIPT>
+          <script type="text/javascript" src="js/CuSunX1.min.js"></script>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+  </div>
+  <div id="footer"></div>
+  <div class="clear"></div>
+
+  <script type="text/javascript" src="http://www.puckart.com/js/megamenu.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(".megamenu").megamenu();
+    });
+  </script>
+  <script type="text/javascript" src="http://www.puckart.com/js/move-top.js"></script>
+  <script type="text/javascript" src="http://www.puckart.com/js/easing.js"></script>
+  <script type="text/javascript" src="http://www.puckart.com/js/cookies.js"></script>
+  <script type="text/javascript" src="js/action.js"></script>
+</body>
+
+</html>
